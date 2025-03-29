@@ -11,14 +11,14 @@ type ButtonProps = {
 }
 export const Button = ({children, onClick=() =>{}, className='text-acad-blue'}:ButtonProps) => {
   return (
-    <button className={'flex items-center justify-center uppercase rounded-lg bg-acad-yellow text-center  font-bold cursor-pointer max-w-[300px] w-full p-4 hover:bg-purple_40 '+ className} onClick={() => onClick()}>
+    <button className={'flex items-center justify-center uppercase rounded-lg bg-acad-yellow text-center  font-bold cursor-pointer w-fit p-4 '+ className} onClick={() => onClick()}>
       {children}
-      <MdArrowOutward/> 
+      <MdArrowOutward size={32}/> 
     </button>
   )
 }
 export const LinkButton = ({children, onClick=() =>{}, className='text-acad-blue', url='#', target='_self'}:ButtonProps) => {
   return (
-    <Link className={'rounded-lg bg-acad-yellow text-center  font-bold cursor-pointer max-w-[300px] w-full p-4 hover:bg-purple_40 '+ className} href={url} target={target}>{children}</Link>
+    <Link className={'rounded-lg bg-acad-yellow text-center  font-bold cursor-pointer max-w-[300px] w-full p-4 '+ className} href={url} target={target}>{children}</Link>
   )
 }
