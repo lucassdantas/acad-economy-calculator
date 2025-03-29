@@ -14,5 +14,13 @@ export const YellowForm = ({className=''}:{className?:string}) => {
     </svg>
   )
 }
+export const BlueAndYellowForms = ({className='', yellowFormClassName='absolute top-0 left-0', blueFormClassName='absolute bottom-0 right-0'}:{className?:string, yellowFormClassName?:string, blueFormClassName?:string}) => {
+  return (
+    <>
+      <YellowForm className={yellowFormClassName}/>
+      <BlueForm className={blueFormClassName}/>
+    </>
+  )
+}
 
 
