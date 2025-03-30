@@ -26,25 +26,16 @@ export const TransactionStep = ({
 
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [opacity, setOpacity] = useState(0);
-  console.log(currentTextGroupIndex, currentTextIndex)
 
-  // 🔹 Verifica se o índice está dentro dos limites válidos
-  if (
-    currentTextGroupIndex < 0 || 
-    currentTextGroupIndex >= transictionTexts.length
-  ) {
-    return null; // Evita erros retornando `null`
+  if (currentTextGroupIndex < 0 || currentTextGroupIndex >= transictionTexts.length) {
+    return null; 
   }
 
   useEffect(() => {
     if (!isInTransictionState) return;
-
     const textGroup = transictionTexts[currentTextGroupIndex];
-    
     setOpacity(0);
-
     const fadeIn = setTimeout(() => setOpacity(1), 100);
-    
     const nextText = setTimeout(() => {
       if (currentTextIndex < textGroup.length - 1) {
         setCurrentTextIndex(prevIndex => prevIndex + 1);
@@ -61,10 +52,7 @@ export const TransactionStep = ({
 
   return (
     <div className='flex flex-col items-center justify-center h-[50%]'>
-      <Title
-        tag={'h2'}
-        className='transition-opacity duration-1000'
-      >
+      <Title tag={'h2'} className='transition-opacity duration-1000' style={{opacity}}>
         {transictionTexts[currentTextGroupIndex][currentTextIndex]}
       </Title>
     </div>
