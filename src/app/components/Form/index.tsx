@@ -3,15 +3,11 @@ import { BlueAndYellowForms} from '@/app/components/BackgroundForms'
 import { Button } from '@/app/components/Button'
 import { ProgressItems } from '@/app/components/Form/ProgressItems'
 import { Title } from '@/app/components/Title'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 export const Form = () => {
   const [academyName, setAcademyName] = useState<string>('')
-  const [currentStep, setCurrentStep] = useState<number>(1)
-  const [currentSubstep, setCurrentSubstep] = useState<number>(1)
-  const [currentSubStepTotal, setCurrentSubstepTotal] = useState<number>(3)
-  const [currentInputsValues, setCurrentInputsValues] = useState<string[]>([''])
-  const [errorMessage, setErrorMessage] = useState<string>('')
+
   const formSteps = [
     [
       {
@@ -21,16 +17,16 @@ export const Form = () => {
         ]
       },
       {
-        title:"Onde fica a " + academyName,
+        title:"Onde fica a " + academyName ,
         inputs:[
-          {type:'select', placeholder:'UF', width:25, name:'gymUF'},
+          {type:'select', placeholder:'UF',     width:25, name:'gymUF'  },
           {type:'select', placeholder:'Cidade', width:75, name:'gymCity'},
         ]
       },
       {
         title:`Quantas unidades a ${academyName} tem?`,
         inputs:[
-          {type:'number', placeholder:'Número de unidades', width:10, name:'gymQuantity'}
+          {type:'number', placeholder:'Número de unidades', width:100, name:'gymQuantity'}
         ]
       },
     ],
@@ -77,18 +73,22 @@ export const Form = () => {
       
     ]
   ]
-  console.log(formSteps[currentStep-1])
-  console.log(currentStep)
+  const [currentStep, setCurrentStep] = useState<number>(1)
+  const [currentSubstep, setCurrentSubstep] = useState<number>(1)
+  const [currentSubStepTotal, setCurrentSubstepTotal] = useState<number>(formSteps[currentStep-1].length)
+  const [currentInputsValues, setCurrentInputsValues] = useState<string[]>([''])
+  const [errorMessage, setErrorMessage] = useState<string>('')
+  
   const incraseStep = () => {
-    setCurrentInputsValues([''])
     let hasEmptyValue = false
     currentInputsValues.forEach(inputValue => {if(inputValue === '' ) hasEmptyValue = true})
     if(hasEmptyValue) return setErrorMessage('Preencha todos os campos')
 
     setCurrentSubstep(currentSubstep+1)
-    if(currentSubstep+1 >= formSteps[(currentStep-1)].length) {
+    if(currentSubstep >= formSteps[(currentStep-1)].length) {
       setCurrentStep(currentStep+1)
       setCurrentSubstep(1)
+      setCurrentSubstepTotal(formSteps[currentStep-1].length)
     }
   }
   
@@ -97,15 +97,25 @@ export const Form = () => {
     setCurrentInputsValues((prevValues) => {
       const newValues = [...prevValues];
       newValues[index] = value;
-      console.log(newValues)
       return newValues;
     });
   };
   
   const handleStepValues = (index:number, value:string, currentStep:number, currentSubstep:number) => {
-    if(currentStep === 1 && currentSubstep === 1) setAcademyName(currentInputsValues[0])
+    if(currentStep === 1 && currentSubstep === 1) setAcademyName(value)
     handleInputChange(index, value)
   }
+
+  //obriga a preencher o primeiro valor no select
+  useEffect(() => {
+    setCurrentInputsValues((prevValues) => {
+      if (prevValues.length === formSteps[currentStep - 1][currentSubstep - 1].inputs.length) {
+        return prevValues; 
+      }
+      return Array.from({ length: formSteps[currentStep - 1][currentSubstep - 1].inputs.length }, () => '');
+    });
+  }, [currentStep, currentSubstep, formSteps]);
+  
   return (
     <div className='h-screen w-[90%] max-w-lg'>
       <BlueAndYellowForms/>
@@ -119,10 +129,12 @@ export const Form = () => {
           <div className="flex gap-4 justify-between items-center w-full">
             {formSteps[currentStep-1][currentSubstep-1].inputs.map((input, i) => 
             {
+              
               if(input.type === 'select') return (
-                <select value={input.placeholder} name={input.name} key={input.name} style={{width:`${input.width}%`} } className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg `} onChange={(e) => handleStepValues(i, e.target.value, currentStep, currentSubstep)}>
+                <select value={currentInputsValues[i] || input.placeholder} name={input.name} key={input.name} style={{width:`${input.width}%`} } className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg `} onChange={(e) => handleStepValues(i, e.target.value, currentStep, currentSubstep)}>
                   <option disabled value={input.placeholder}>{input.placeholder}</option>
                   <option value={'a'}>{'a'}</option>
+                  <option value={'b'}>{'b'}</option>
                 </select>
               )
               return(
