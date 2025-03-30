@@ -13,9 +13,9 @@ export const Title = ({ children, className = '', tag = 'h2' }: TitleProps) => {
     <Tag
       className={`${
         tag === 'h1'
-          ? 'text-5xl'
+          ? 'text-4xl'
           : tag === 'h2'
-          ? 'text-3xl'
+          ? 'text-2xl'
           : tag === 'h3'
           ? 'text-2xl'
           : tag === 'h4'
