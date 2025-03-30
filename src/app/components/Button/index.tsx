@@ -9,9 +9,9 @@ type ButtonProps = {
   url?:string;
   target?:string;
 }
-export const Button = ({children, onClick=() =>{}, className='text-acad-blue'}:ButtonProps) => {
+export const Button = ({children, onClick=() =>{}, className=''}:ButtonProps) => {
   return (
-    <button className={'flex items-center justify-center uppercase rounded-lg bg-acad-yellow text-center  font-bold cursor-pointer w-fit p-4 '+ className} onClick={() => onClick()}>
+    <button className={'flex items-center justify-center uppercase rounded-lg bg-acad-yellow text-center hover:bg-acad-light-yellow  font-bold cursor-pointer w-fit p-2 px-6 text-acad-blue transition-all duration-300'+ className} onClick={() => onClick()}>
       {children}
       <MdArrowOutward size={32}/> 
     </button>
