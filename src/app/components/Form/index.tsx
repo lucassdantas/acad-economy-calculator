@@ -71,6 +71,18 @@ export const Form = () => {
           {type:'txt', placeholder:"Nome Sobrenome", width:100, name:'customerName' }
         ]
       },
+      {
+        title:'Seu e-mail',
+        inputs:[
+          {type:'email', placeholder:"email@email.com.br", width:100, name:'customerEmail' }
+        ]
+      },
+      {
+        title:'Whatsapp',
+        inputs:[
+          {type:'txt', placeholder:"(00)00000-0000", width:100, name:'customerPhone' }
+        ]
+      },
       
     ]
   ]
@@ -130,24 +142,42 @@ export const Form = () => {
       {isInTransictionState && <TransactionStep isInTransictionState={isInTransictionState} setIsInTransictionState={setIsInTransictionState} currentTextGroupIndex={currentStep-2}/>}
       {!isInTransictionState &&
         <div className='flex flex-col items-center justify-center'>
+          {currentStep === formSteps.length && <Title tag={'h4'} className='text-acad-gray-dark font-medium mb-4'>Para finalizar</Title>}
           <ProgressItems currentStep={currentStep} currentStepProgress={(currentSubstep/currentSubStepTotal)*22}/>
-          <div className='flex flex-col text-center items-center mt-12 gap-4'>
-            <Title tag={'h2'}>{formSteps[currentStep-1][currentSubstep-1].title}</Title>
-            <div className="flex gap-4 justify-between items-center w-full">
-              {formSteps[currentStep-1][currentSubstep-1].inputs.map((input, i) => {
-                if(input.type === 'select') return (
-                  <select value={currentInputsValues[i] || input.placeholder} name={input.name} key={input.name} style={{width:`${input.width}%`} } className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg min-w-fit `} onChange={(e) => handleStepValues(i, e.target.value, currentStep, currentSubstep)}>
-                    <option disabled value={input.placeholder}>{input.placeholder}</option>
-                    <option value={'a'}>{'a'}</option>
-                    <option value={'b'}>{'b'}</option>
-                  </select>
+          {currentStep === formSteps.length &&
+            <div className='flex flex-col gap-4 w-full mt-12 items-center justify-center'>
+              {formSteps[currentStep-1].map((item, i) => {
+                const input = item.inputs[0]
+                return(
+                  <div className='text-left w-full' key={i}>
+                      <Title tag={'h5'}>{item.title}</Title>
+                      <input type={input.type} placeholder={input.placeholder} name={input.name} key={input.name} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg `} style={{width:`${input.width}%`}} value={currentInputsValues[i]} onChange={(e) => handleStepValues(i, e.target.value, currentStep, currentSubstep)}/>
+                  </div>
                 )
-                return(<input type={input.type} placeholder={input.placeholder} name={input.name} key={input.name} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg `} style={{width:`${input.width}%`}} value={currentInputsValues[i]} onChange={(e) => handleStepValues(i, e.target.value, currentStep, currentSubstep)}/>)
-              })}
+              })} 
+              <Button className='mt-4' onClick={() => increaseStep() }>Ver quanto consigo economizar</Button>
+
             </div>
-            {errorMessage&&<span className='text-acad-blue uppercase'>{errorMessage}</span>}
-            <Button className='' onClick={() => increaseStep() }>Próximo</Button>
-          </div>
+          }
+          {currentStep < formSteps.length &&
+            <div className='flex flex-col text-center items-center mt-12 gap-4'>
+              <Title tag={'h2'}>{formSteps[currentStep-1][currentSubstep-1].title}</Title>
+              <div className="flex gap-4 justify-between items-center w-full">
+                {formSteps[currentStep-1][currentSubstep-1].inputs.map((input, i) => {
+                  if(input.type === 'select') return (
+                    <select value={currentInputsValues[i] || input.placeholder} name={input.name} key={input.name} style={{width:`${input.width}%`} } className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg min-w-fit `} onChange={(e) => handleStepValues(i, e.target.value, currentStep, currentSubstep)}>
+                      <option disabled value={input.placeholder}>{input.placeholder}</option>
+                      <option value={'a'}>{'a'}</option>
+                      <option value={'b'}>{'b'}</option>
+                    </select>
+                  )
+                  return(<input type={input.type} placeholder={input.placeholder} name={input.name} key={input.name} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg `} style={{width:`${input.width}%`}} value={currentInputsValues[i]} onChange={(e) => handleStepValues(i, e.target.value, currentStep, currentSubstep)}/>)
+                })}
+              </div>
+              {errorMessage&&<span className='text-acad-blue uppercase'>{errorMessage}</span>}
+              <Button className='' onClick={() => increaseStep() }>Próximo</Button>
+            </div>
+          }
         </div>
       }
     </div>
