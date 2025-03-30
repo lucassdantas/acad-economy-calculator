@@ -6,7 +6,7 @@ import { Title } from "@/app/components/Title";
 import { useState } from "react";
 
 export default function Home() {
-  const [isAppStarted, setIsAppStarted] = useState<boolean>(false)
+  const [isAppStarted, setIsAppStarted] = useState<boolean>(true)
   
   return (
     <main className="h-screen flex items-center justify-center relative">
