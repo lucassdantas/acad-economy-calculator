@@ -33,15 +33,60 @@ export const Form = () => {
           {type:'number', placeholder:'Número de unidades', width:10, name:'gymQuantity'}
         ]
       },
+    ],
+    [
+      {
+        title:'Qual é o faturamento da '+ academyName,
+        inputs:[
+          {type:'txt', placeholder:"Faturamento", width:100, name:'gymBilling' }
+        ]
+      },
+      {
+        title:'Quanto você paga de ECAD?',
+        inputs:[
+          {type:'txt', placeholder:"Valor", width:100, name:'ecadValue' }
+        ]
+      },
+      {
+        title:'Quanto a ' + academyName + ' gasta de energia em média por mês?',
+        inputs:[
+          {type:'txt', placeholder:"valor", width:100, name:'lightExpenditure' }
+        ]
+      },
+      {
+        title:'Quanto paga por seguro estagiário?',
+        inputs:[
+          {type:'txt', placeholder:"valor", width:100, name:'traineeSecure' }
+        ]
+      },
+      {
+        title:'Quanto paga de advogado?',
+        inputs:[
+          {type:'txt', placeholder:"valor", width:100, name:'lawyerExpenditure' }
+        ]
+      },
+      
+    ],
+    [
+      {
+        title:'Como se chama?',
+        inputs:[
+          {type:'txt', placeholder:"Nome Sobrenome", width:100, name:'customerName' }
+        ]
+      },
+      
     ]
   ]
+  console.log(formSteps[currentStep-1])
+  console.log(currentStep)
   const incraseStep = () => {
     setCurrentInputsValues([''])
     let hasEmptyValue = false
     currentInputsValues.forEach(inputValue => {if(inputValue === '' ) hasEmptyValue = true})
     if(hasEmptyValue) return setErrorMessage('Preencha todos os campos')
+
     setCurrentSubstep(currentSubstep+1)
-    if(currentSubstep+2 >= formSteps[currentStep].length) {
+    if(currentSubstep+1 >= formSteps[(currentStep-1)].length) {
       setCurrentStep(currentStep+1)
       setCurrentSubstep(1)
     }
@@ -52,6 +97,7 @@ export const Form = () => {
     setCurrentInputsValues((prevValues) => {
       const newValues = [...prevValues];
       newValues[index] = value;
+      console.log(newValues)
       return newValues;
     });
   };
@@ -61,7 +107,7 @@ export const Form = () => {
     handleInputChange(index, value)
   }
   return (
-    <div className='h-screen  w-[90%] max-w-lg'>
+    <div className='h-screen w-[90%] max-w-lg'>
       <BlueAndYellowForms/>
       <div className='py-12 text-center w-full flex justify-center mb-18'>
         <img src='/imgs/acad-logo.png' alt='Acad Logotipo' className='max-w-[158px] '/>
@@ -76,6 +122,7 @@ export const Form = () => {
               if(input.type === 'select') return (
                 <select value={input.placeholder} name={input.name} key={input.name} style={{width:`${input.width}%`} } className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg `} onChange={(e) => handleStepValues(i, e.target.value, currentStep, currentSubstep)}>
                   <option disabled value={input.placeholder}>{input.placeholder}</option>
+                  <option value={'a'}>{'a'}</option>
                 </select>
               )
               return(
