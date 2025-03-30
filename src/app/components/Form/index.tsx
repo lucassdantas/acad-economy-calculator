@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 
 export const Form = () => {
   const [academyName, setAcademyName] = useState<string>('')
-  const [currentStep, setCurrentStep] = useState<number>(1)
+  const [currentStep, setCurrentStep] = useState<number>(2)
   const [currentSubstep, setCurrentSubstep] = useState<number>(1)
   const [currentSubStepTotal, setCurrentSubstepTotal] = useState<number>(3)
   console.log(formSteps(academyName))
