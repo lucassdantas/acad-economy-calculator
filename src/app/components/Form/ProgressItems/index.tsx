@@ -27,6 +27,12 @@ export const ProgressItems = ({currentStep, currentStepProgress}:ProgressBarProp
           <ProgressBar leftPosition={250} progress={currentStepProgress} />
         </>
       }
+      {currentStep===3 && 
+        <>
+          <ProgressBar leftPosition={12} progress={50} />
+          <ProgressBar leftPosition={250} progress={45} />
+        </>
+      }
     </div>
   )
 }

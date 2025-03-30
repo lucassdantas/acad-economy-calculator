@@ -83,7 +83,9 @@ export const Form = () => {
     let hasEmptyValue = false
     currentInputsValues.forEach(inputValue => {if(inputValue === '' ) hasEmptyValue = true})
     if(hasEmptyValue) return setErrorMessage('Preencha todos os campos')
-
+    let resetedInputValues = Array.from({ length: formSteps[currentStep - 1][currentSubstep - 1].inputs.length }, () => '');
+    setCurrentInputsValues(resetedInputValues)
+    
     setCurrentSubstep(currentSubstep+1)
     if(currentSubstep >= formSteps[(currentStep-1)].length) {
       setCurrentStep(currentStep+1)
@@ -115,7 +117,7 @@ export const Form = () => {
       return Array.from({ length: formSteps[currentStep - 1][currentSubstep - 1].inputs.length }, () => '');
     });
   }, [currentStep, currentSubstep, formSteps]);
-  
+
   return (
     <div className='h-screen w-[90%] max-w-lg'>
       <BlueAndYellowForms/>
@@ -123,7 +125,7 @@ export const Form = () => {
         <img src='/imgs/acad-logo.png' alt='Acad Logotipo' className='max-w-[158px] '/>
       </div>
       <div className='flex flex-col items-center justify-center'>
-        <ProgressItems currentStep={currentStep} currentStepProgress={(currentSubstep/currentSubStepTotal)*35}/>
+        <ProgressItems currentStep={currentStep} currentStepProgress={(currentSubstep/currentSubStepTotal)*22}/>
         <div className='flex flex-col text-center items-center mt-12 gap-4'>
           <Title tag={'h2'}>{formSteps[currentStep-1][currentSubstep-1].title}</Title>
           <div className="flex gap-4 justify-between items-center w-full">
