@@ -2,15 +2,23 @@
 import { BlueForm } from "@/app/components/BackgroundForms";
 import { Button } from "@/app/components/Button";
 import { Form } from "@/app/components/Form";
+import { LastScreen } from "@/app/components/LastScreen";
 import { Title } from "@/app/components/Title";
 import { useState } from "react";
 
 export default function Home() {
   const [isAppStarted, setIsAppStarted] = useState<boolean>(true)
+  const [isLastScreen, setIsLastScreen] = useState<boolean>(false)
+  const [userName, setUserName] = useState<string>('')
   
+
   return (
     <main className="h-screen flex items-center justify-center relative">
-      {isAppStarted? <Form/>:<BeforeInitApp isAppStarted setIsAppStarted={setIsAppStarted}/>}
+      {isAppStarted ? 
+        isLastScreen?
+          <LastScreen userName={userName} economyValue={10000}/>:<Form isLastScreen={isLastScreen} setIsLastScreen={setIsLastScreen} userName={userName} setUserName={setUserName}/>
+        :
+        <BeforeInitApp isAppStarted setIsAppStarted={setIsAppStarted}/>}
     </main>
   );
 }

@@ -3,10 +3,17 @@ import { BlueAndYellowForms} from '@/app/components/BackgroundForms'
 import { Button } from '@/app/components/Button'
 import { ProgressItems } from '@/app/components/Form/ProgressItems'
 import { TransactionStep } from '@/app/components/Form/TransictionStep'
+import { LastScreen } from '@/app/components/LastScreen'
 import { Title } from '@/app/components/Title'
 import React, { useEffect, useState } from 'react'
 
-export const Form = () => {
+interface FormProps{
+  isLastScreen:boolean;
+  setIsLastScreen:(status:boolean) => void;
+  userName:string;
+  setUserName:(userName:string) => void;
+}
+export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName}:FormProps) => {
   const [academyName, setAcademyName] = useState<string>('')
 
   const formSteps = [
@@ -86,7 +93,7 @@ export const Form = () => {
       
     ]
   ]
-  const [currentStep, setCurrentStep] = useState<number>(1)
+  const [currentStep, setCurrentStep] = useState<number>(3)
   const [currentSubstep, setCurrentSubstep] = useState<number>(1)
   const [currentSubStepTotal, setCurrentSubstepTotal] = useState<number>(formSteps[currentStep-1].length)
   const [currentInputsValues, setCurrentInputsValues] = useState<string[]>([''])
@@ -122,7 +129,9 @@ export const Form = () => {
     if(currentStep === 1 && currentSubstep === 1) setAcademyName(value)
     handleInputChange(index, value)
   }
-
+  const handleFormSubmit = () => {
+    setIsLastScreen(true)
+  }
   //obriga a preencher o primeiro valor no select
   useEffect(() => {
     setCurrentInputsValues((prevValues) => {
@@ -139,26 +148,28 @@ export const Form = () => {
       <div className='py-12 text-center w-full flex justify-center mb-18'>
         <img src='/imgs/acad-logo.png' alt='Acad Logotipo' className='max-w-[158px] '/>
       </div>
-      {isInTransictionState && <TransactionStep isInTransictionState={isInTransictionState} setIsInTransictionState={setIsInTransictionState} currentTextGroupIndex={currentStep-2}/>}
-      {!isInTransictionState &&
+      {!isLastScreen && isInTransictionState && <TransactionStep isInTransictionState={isInTransictionState} setIsInTransictionState={setIsInTransictionState} currentTextGroupIndex={currentStep-2}/>}
+      {!isLastScreen && !isInTransictionState &&
         <div className='flex flex-col items-center justify-center'>
           {currentStep === formSteps.length && <Title tag={'h4'} className='text-acad-gray-dark font-medium mb-4'>Para finalizar</Title>}
           <ProgressItems currentStep={currentStep} currentStepProgress={(currentSubstep/currentSubStepTotal)*22}/>
-          {currentStep === formSteps.length &&
+          
+          {currentStep === formSteps.length && //check is is last step
             <div className='flex flex-col gap-4 w-full mt-12 items-center justify-center'>
               {formSteps[currentStep-1].map((item, i) => {
                 const input = item.inputs[0]
                 return(
                   <div className='text-left w-full' key={i}>
-                      <Title tag={'h5'}>{item.title}</Title>
-                      <input type={input.type} placeholder={input.placeholder} name={input.name} key={input.name} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg `} style={{width:`${input.width}%`}} value={currentInputsValues[i]} onChange={(e) => handleStepValues(i, e.target.value, currentStep, currentSubstep)}/>
+                    <Title tag={'h5'}>{item.title}</Title>
+                    <input type={input.type} placeholder={input.placeholder} name={input.name} key={input.name} onChange={(e) => setUserName(e.target.value)} value={userName} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg `} style={{width:`${input.width}%`}}/>
                   </div>
                 )
               })} 
-              <Button className='mt-4' onClick={() => increaseStep() }>Ver quanto consigo economizar</Button>
+              <Button className='mt-4' onClick={() => handleFormSubmit() }>Ver quanto consigo economizar</Button>
 
             </div>
           }
+          
           {currentStep < formSteps.length &&
             <div className='flex flex-col text-center items-center mt-12 gap-4'>
               <Title tag={'h2'}>{formSteps[currentStep-1][currentSubstep-1].title}</Title>
