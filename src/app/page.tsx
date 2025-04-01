@@ -17,7 +17,7 @@ export default function Home() {
     <main className="h-screen flex items-center justify-center relative">
       {isAppStarted ? 
         isLastScreen?
-          <LastScreen userName={userName} economyValue={10000}/>:<Form isLastScreen={isLastScreen} setIsLastScreen={setIsLastScreen} userName={userName} setUserName={setUserName}/>
+          <LastScreen userName={userName} economyValue={10000}/>:<Form isLastScreen={isLastScreen} setIsLastScreen={setIsLastScreen} userName={userName} setUserName={setUserName} isAppStarted={isAppStarted} setIsAppStarted={setIsAppStarted}/>
         :
         <BeforeInitApp isAppStarted setIsAppStarted={setIsAppStarted}/>}
     </main>

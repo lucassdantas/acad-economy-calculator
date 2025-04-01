@@ -4,16 +4,20 @@ import { Button } from '@/app/components/Button'
 import { ProgressItems } from '@/app/components/Form/ProgressItems'
 import { TransactionStep } from '@/app/components/Form/TransictionStep'
 import { LastScreen } from '@/app/components/LastScreen'
+import { LogoAndBackButton } from '@/app/components/LogoAndBackButton'
 import { Title } from '@/app/components/Title'
 import React, { useEffect, useState } from 'react'
+import { MdArrowCircleLeft } from 'react-icons/md'
 
 interface FormProps{
   isLastScreen:boolean;
   setIsLastScreen:(status:boolean) => void;
   userName:string;
   setUserName:(userName:string) => void;
+  isAppStarted:boolean;
+  setIsAppStarted:any
 }
-export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName}:FormProps) => {
+export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAppStarted, setIsAppStarted}:FormProps) => {
   const [academyName, setAcademyName] = useState<string>('')
 
   const formSteps = [
@@ -93,7 +97,7 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName}:Form
       
     ]
   ]
-  const [currentStep, setCurrentStep] = useState<number>(3)
+  const [currentStep, setCurrentStep] = useState<number>(1)
   const [currentSubstep, setCurrentSubstep] = useState<number>(1)
   const [currentSubStepTotal, setCurrentSubstepTotal] = useState<number>(formSteps[currentStep-1].length)
   const [currentInputsValues, setCurrentInputsValues] = useState<string[]>([''])
@@ -115,7 +119,15 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName}:Form
       setCurrentSubstepTotal(formSteps[currentStep-1].length)
     }
   }
-  
+  const decreaseStep = (formSteps:any, currentStep:number, currentSubstep:number, setIsAppStarted:any) => {
+    setCurrentSubstep(currentSubstep-1)
+    if(currentSubstep <= 1) {
+      if(currentStep <= 1) return setIsAppStarted(false)
+      setCurrentStep(currentStep-1)
+      setCurrentSubstep(1)
+      setCurrentSubstepTotal(formSteps[currentStep-1].length)
+    }
+  }
   const handleInputChange = (index: number, value: string) => {
     setErrorMessage('')
     setCurrentInputsValues((prevValues) => {
@@ -143,11 +155,10 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName}:Form
   }, [currentStep, currentSubstep, formSteps]);
 
   return (
+    <div className='flex flex-col w-full items-center  h-screen'>
+      <LogoAndBackButton currentStep={currentStep} decreaseStep={decreaseStep} formSteps={formSteps} currentSubstep={currentSubstep} setIsAppStarted={setIsAppStarted}/>
     <div className='h-screen w-[90%] max-w-lg'>
       <BlueAndYellowForms/>
-      <div className='py-12 text-center w-full flex justify-center mb-18'>
-        <img src='/imgs/acad-logo.png' alt='Acad Logotipo' className='max-w-[158px] '/>
-      </div>
       {!isLastScreen && isInTransictionState && <TransactionStep isInTransictionState={isInTransictionState} setIsInTransictionState={setIsInTransictionState} currentTextGroupIndex={currentStep-2}/>}
       {!isLastScreen && !isInTransictionState &&
         <div className='flex flex-col items-center justify-center'>
@@ -191,6 +202,7 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName}:Form
           }
         </div>
       }
+    </div>
     </div>
   )
 }
