@@ -38,7 +38,7 @@ export const SelectLocationStep = ({input, i, currentInputsValues, handleStepVal
         name={input.name}
         key={input.name}
         style={{ width: `${input.width}%` }}
-        className="bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg min-w-fit"
+        className="bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg "
         onChange={(e) => {
           handleStepValues(i, e.target.value, currentStep, currentSubstep);
           setUF(e.target.value);
