@@ -16,9 +16,11 @@ interface FormProps{
   userName:string;
   setUserName:(userName:string) => void;
   isAppStarted:boolean;
-  setIsAppStarted:any
+  setIsAppStarted:any;
+  economyTotals:string|number;
+  setEconomyTotals:any;
 }
-export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAppStarted, setIsAppStarted}:FormProps) => {
+export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAppStarted, setIsAppStarted, economyTotals, setEconomyTotals}:FormProps) => {
   const [academyName, setAcademyName] = useState<string>('') 
   const [UF, setUF] = useState<string>('')
   const [city, setCity] = useState<string>('')
@@ -157,6 +159,7 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
       }).format(numericValue / 100);
       return formattedValue
   }
+
   const handleStepValues = (index:number, value:string, currentStep:number, currentSubstep:number) => {
     if(currentStep === 1 && currentSubstep === 1) setAcademyName(value)
     if(currentStep === 1 && currentSubstep === 2) {
@@ -188,13 +191,29 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
     
     handleInputChange(index, value)
   }
+  const parseCurrency = (value:string) => {
+    return Number(value.replace(/\./g, '').replace(',', '.')) || 0;
+  };
 
+  const calculateTotalsEconomy = () => {
+    const gymBillingNumber = parseCurrency(gymBilling);
+    const ecadValueNumber = parseCurrency(ecadValue);
+    const lightBillingNumber = parseCurrency(lightBilling);
+
+    const getnetEconomy = gymBillingNumber*(1.5/100)
+    const ecadEconomy = ecadValueNumber*(40/100)
+    const lightEconomy = lightBillingNumber*(14/100)
+    console.log(getnetEconomy, ecadEconomy, lightEconomy)
+    const totalsEconomy = getnetEconomy+ecadEconomy+lightEconomy
+    setEconomyTotals(totalsEconomy)
+  }
   const handleFormSubmit = async () => {
+    calculateTotalsEconomy()
     const formData = new FormData();
     formData.append('name', userName);
     formData.append('email', email);
     formData.append('phone', phone);
-
+    
     try {
       const response = await fetch(`${location.protocol}//${location.hostname}/backend/send-email.php`, {
         method: 'POST',
@@ -227,7 +246,6 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
   return (
   <div className='flex flex-col w-full items-center  h-screen'>
     <LogoAndBackButton currentStep={currentStep} decreaseStep={decreaseStep} formSteps={formSteps} currentSubstep={currentSubstep} setIsAppStarted={setIsAppStarted}/>
-    {currentInputsValues[0]}
     
     <div className='h-screen w-[90%] max-w-lg'>
       <BlueAndYellowForms/>

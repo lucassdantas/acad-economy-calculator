@@ -5,7 +5,7 @@ import React from 'react'
 
 interface LastScreenProps{
   userName:string;
-  economyValue:number;
+  economyValue:number|string;
 }
 export const LastScreen = ({userName, economyValue}:LastScreenProps) => {
   return (

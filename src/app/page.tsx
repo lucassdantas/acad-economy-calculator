@@ -11,13 +11,13 @@ export default function Home() {
   const [isAppStarted, setIsAppStarted] = useState<boolean>(false)
   const [isLastScreen, setIsLastScreen] = useState<boolean>(false)
   const [userName, setUserName] = useState<string>('')
-  
+  const [economyTotals, setEconomyTotals] = useState<string|number>('10.000')
 
   return (
     <main className="flex items-center justify-center relative">
       {isAppStarted ? 
         isLastScreen?
-          <LastScreen userName={userName} economyValue={10000}/>:<Form isLastScreen={isLastScreen} setIsLastScreen={setIsLastScreen} userName={userName} setUserName={setUserName} isAppStarted={isAppStarted} setIsAppStarted={setIsAppStarted}/>
+          <LastScreen userName={userName} economyValue={economyTotals}/>:<Form economyTotals={economyTotals} setEconomyTotals={setEconomyTotals} isLastScreen={isLastScreen} setIsLastScreen={setIsLastScreen} userName={userName} setUserName={setUserName} isAppStarted={isAppStarted} setIsAppStarted={setIsAppStarted}/>
         :
         <BeforeInitApp isAppStarted setIsAppStarted={setIsAppStarted}/>}
     </main>
