@@ -1,5 +1,5 @@
 'use client'
-import { BlueForm } from "@/app/components/BackgroundForms";
+import { BlueAndYellowForms, BlueForm } from "@/app/components/BackgroundForms";
 import { Button } from "@/app/components/Button";
 import { Form } from "@/app/components/Form";
 import { LastScreen } from "@/app/components/LastScreen";
@@ -14,7 +14,7 @@ export default function Home() {
   
 
   return (
-    <main className="h-screen flex items-center justify-center relative">
+    <main className="flex items-center justify-center relative">
       {isAppStarted ? 
         isLastScreen?
           <LastScreen userName={userName} economyValue={10000}/>:<Form isLastScreen={isLastScreen} setIsLastScreen={setIsLastScreen} userName={userName} setUserName={setUserName} isAppStarted={isAppStarted} setIsAppStarted={setIsAppStarted}/>
@@ -27,10 +27,11 @@ export default function Home() {
 
 const BeforeInitApp = ({isAppStarted, setIsAppStarted}:{isAppStarted:boolean, setIsAppStarted:(isAppStarted:boolean)=>void}) => {
   return(
-    <div className='w-full h-fit text-center flex flex-col items-center gap-4 md:flex-row relative'>
-      <BlueForm className='absolute bottom-0 right-0'/>
-      <div className='w-full text-left md:flex md:flex-col md:items-start md:justify-between md:h-screen md:w-[50%]'>
-        <img src={'/imgs/discount-man.png'} alt='Homem com ícones de desconto' className='w-full mt-58 block md:hidden'/>
+    <div className='w-full min-h-screen text-center flex flex-col justify-start items-center gap-4 md:flex-row relative'>
+      <BlueAndYellowForms className=''/>
+      <div className='w-full md:w-[50%] text-center flex flex-col items-center justify-center md:items-center md:justify-center pt-12'>
+        <img src='/imgs/acad-logo.png' alt='Acad Logotipo' className='max-w-[300px] -mb-4 '/>
+        <img src={'/imgs/discount-man.png'} alt='Homem com ícones de desconto' className='w-full  block md:hidden'/>
         <img src={'/imgs/discount-man-vertical.png'} alt='Homem com ícones de desconto' className='hidden md:block  w-full object-contain max-w-[752px]  text-left'/>
       </div>
       <div className='flex flex-col items-center justify-center md:justify-start md:text-start md:w-[50%] gap-4 mb-24 md:mb-0 px-4'>
@@ -39,7 +40,7 @@ const BeforeInitApp = ({isAppStarted, setIsAppStarted}:{isAppStarted:boolean, se
         <div className='w-full flex justify-center md:justify-start md:mt-12'>
           <Button onClick={() => setIsAppStarted(true)}>Calcular minha economia agora</Button>
         </div>
-        <Link href='https://diagonal.ag/' target='_blank' className='absolute bottom-2'>
+        <Link href='https://diagonal.ag/' target='_blank' className='mt-12'>
           <img src={'/imgs/feito-por-diagonal.png'} alt='diagonal-copyright' />
         </Link>
       </div>

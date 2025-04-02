@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function RootLayout({children}:Readonly<{children: React.ReactNode;}>) {
   return (
     <html lang="pt-br">
-      <body className={`${montSerrat.className} antialiased`}>
+      <body className={`${montSerrat.className} antialiased h-screen`}>
         {children}
       </body>
     </html>
