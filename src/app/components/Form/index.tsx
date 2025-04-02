@@ -194,7 +194,13 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
   const parseCurrency = (value:string) => {
     return Number(value.replace(/\./g, '').replace(',', '.')) || 0;
   };
-
+  const formatPhoneNumber = (value:string) => {
+    return value
+      .replace(/\D/g, '') // Remove tudo que não for número
+      .replace(/^(\d{2})(\d)/, '($1) $2') // Adiciona parênteses ao DDD
+      .replace(/(\d{5})(\d)/, '$1-$2') // Adiciona o hífen no final
+      .slice(0, 15); // Limita ao formato (00) 00000-0000
+  };
   const calculateTotalsEconomy = () => {
     const gymBillingNumber = parseCurrency(gymBilling);
     const ecadValueNumber = parseCurrency(ecadValue);
@@ -266,7 +272,7 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
               </div>
               <div className='text-left w-full' >
                 <Title tag={'h5'}>Whatsapp</Title>
-                <input type='txt' placeholder='(00)00000-0000' name='email' onChange={(e) => setPhone(e.target.value)} value={phone} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg w-full `}/>
+                <input type='txt' placeholder='(00)00000-0000' name='email' onChange={(e) => setPhone(formatPhoneNumber(e.target.value))} value={phone} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg w-full `}/>
               </div>
               <Button className='mt-4' onClick={() => handleFormSubmit() }>Ver quanto consigo economizar</Button>
             </div>
