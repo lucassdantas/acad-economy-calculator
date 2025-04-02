@@ -165,8 +165,29 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
     handleInputChange(index, value)
   }
 
-  const handleFormSubmit = () => {
-    setIsLastScreen(true)
+  const handleFormSubmit = async () => {
+    const formData = new FormData();
+  formData.append('name', userName);
+  formData.append('email', email);
+  formData.append('phone', phone);
+
+  try {
+    const response = await fetch(`${location.protocol}//${location.hostname}/backend/send-email.php`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (response.ok) {
+      alert('Formulário enviado com sucesso!');
+      setIsLastScreen(true)
+    } else {
+      alert('Erro ao enviar o formulário.');
+    }
+  } catch (error) {
+    console.error('Erro ao enviar:', error);
+    alert('Erro ao conectar ao servidor.');
+  }
+    
   }
   //obriga a preencher o primeiro valor no select
   useEffect(() => {
@@ -179,7 +200,7 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
   }, [currentStep, currentSubstep, formSteps]);
 
   return (
-    <div className='flex flex-col w-full items-center  h-screen'>
+  <div className='flex flex-col w-full items-center  h-screen'>
       <LogoAndBackButton currentStep={currentStep} decreaseStep={decreaseStep} formSteps={formSteps} currentSubstep={currentSubstep} setIsAppStarted={setIsAppStarted}/>
     <div className='h-screen w-[90%] max-w-lg'>
       <BlueAndYellowForms/>
@@ -203,9 +224,7 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
                 <Title tag={'h5'}>Whatsapp</Title>
                 <input type='txt' placeholder='(00)00000-0000' name='email' onChange={(e) => setPhone(e.target.value)} value={phone} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg w-full `}/>
               </div>
-              
               <Button className='mt-4' onClick={() => handleFormSubmit() }>Ver quanto consigo economizar</Button>
-
             </div>
           }
           
@@ -231,6 +250,6 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
         </div>
       }
     </div>
-    </div>
+  </div>
   )
 }
