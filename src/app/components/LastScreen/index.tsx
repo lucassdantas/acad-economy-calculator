@@ -9,13 +9,18 @@ interface LastScreenProps{
 }
 export const LastScreen = ({userName, economyValue}:LastScreenProps) => {
   return (
-    <div className='w-full h-screen text-center flex flex-col md:flex-row items-center  relative '>
+    <div className='w-full min-h-screen text-center flex flex-col lg:flex-row items-center gap-4 relative overflow-y-hidden '>
       <BlueAndYellowForms className=''/>
-      <div className='w-full md:w-[50%] text-left flex flex-col items-center justify-center pt-12 mb-4 md:-mb-4'>
-        <img src='/imgs/acad-logo.png' alt='Acad Logotipo' className='max-w-[300px] -mb-8 '/>
-        <img src={'/imgs/discount-man.png'} alt='Homem com ícones de desconto' className='w-full  block md:hidden'/>
-        <img src={'/imgs/discount-man-vertical.png'} alt='Homem com ícones de desconto' className='hidden md:block  w-full object-contain max-w-[752px]  text-left'/>
+      <div className='w-full lg:w-[50%]  lg:h-screen flex flex-col items-center  lg:items-center lg:justify-center pt-4'>
+        <img src='/imgs/acad-logo.png' alt='Acad Logotipo' className='w-[80%] max-w-[300px] lg:max-w-[80%] -mb-6 '/>
+        <div className='flex flex-col items-center lg:items-tart w-full lg:h-screen relative overflow-hidden'>
+          <img src={'/imgs/discount-man-vertical.png'} alt='Homem com ícones de desconto' className='hidden lg:block object-contain '/>
+          <img src={'/imgs/discount-man.png'} alt='Homem com ícones de desconto' className='max-w-[560px] block lg:hidden object-contain w-full'/>
+          <div className='lg:hidden absolute bottom-0 left-0 w-full h-14 sm:h-20  bg-white' style={{ clipPath: 'polygon(-50% 100%, 100% 0, 100% 100%, 0 100%)' }}></div>
+          <div className='lg:hidden absolute bottom-0 left-0 w-full h-14 sm:h-20  bg-gradient-to-b from-black to-white opacity-20' style={{ clipPath: 'polygon(-50% 100%, 100% 0, 100% 100%, 0 100%)' }}></div>
+        </div>
       </div>
+
       <div className='flex flex-col items-center justify-between md:w-[50%] gap-12'>
         <div className='flex flex-col justify-center items-center'>
           <h2 className='text-2xl text-acad-blue font-bold uppercase mb-4'>{userName}, <b>com a Acad,</b> você pode economizar:</h2>
