@@ -33,7 +33,7 @@ const BeforeInitApp = ({isAppStarted, setIsAppStarted}:{isAppStarted:boolean, se
         <img src='/imgs/acad-logo.png' alt='Acad Logotipo' className='w-[80%] max-w-[300px] lg:max-w-[80%] -mb-6 '/>
         <div className='flex flex-col items-center lg:items-tart w-full lg:h-screen relative overflow-hidden'>
           <img src={'/imgs/discount-man-vertical.png'} alt='Homem com ícones de desconto' className='hidden lg:block object-contain '/>
-          <img src={'/imgs/discount-man.png'} alt='Homem com ícones de desconto' className='max-w-[700px] block lg:hidden object-contain '/>
+          <img src={'/imgs/discount-man.png'} alt='Homem com ícones de desconto' className='max-w-[560px] block lg:hidden object-contain w-full'/>
           <div className='lg:hidden absolute bottom-0 left-0 w-full h-22 bg-white' style={{ clipPath: 'polygon(-50% 100%, 100% 0, 100% 100%, 0 100%)' }}></div>
           <div className='lg:hidden absolute bottom-0 left-0 w-full h-22 bg-gradient-to-b from-black to-white opacity-20' style={{ clipPath: 'polygon(-50% 100%, 100% 0, 100% 100%, 0 100%)' }}></div>
         </div>
