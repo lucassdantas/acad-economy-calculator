@@ -203,7 +203,6 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
     const getnetEconomy = gymBillingNumber*(1.5/100)
     const ecadEconomy = ecadValueNumber*(40/100)
     const lightEconomy = lightBillingNumber*(14/100)
-    console.log(getnetEconomy, ecadEconomy, lightEconomy)
     const totalsEconomy = getnetEconomy+ecadEconomy+lightEconomy
     setEconomyTotals(totalsEconomy)
   }

@@ -34,13 +34,13 @@ const BeforeInitApp = ({isAppStarted, setIsAppStarted}:{isAppStarted:boolean, se
         <img src={'/imgs/discount-man.png'} alt='Homem com ícones de desconto' className='w-full  block md:hidden'/>
         <img src={'/imgs/discount-man-vertical.png'} alt='Homem com ícones de desconto' className='hidden md:block  w-full object-contain max-w-[752px]  text-left'/>
       </div>
-      <div className='flex flex-col items-center justify-center md:justify-start md:text-start md:w-[50%] gap-4 mb-24 md:mb-0 px-4'>
+      <div className='flex flex-col md:items-start justify-center md:justify-start md:text-start md:w-[50%] gap-4 mb-24 md:mb-0 px-4'>
         <Title tag='h1'>Descubra quanto sua academia pode economizar</Title>
         <Title tag='h2' className='text-acad-gray-dark mb-4'>sendo um associado ACAD Brasil!</Title>
         <div className='w-full flex justify-center md:justify-start md:mt-12'>
           <Button onClick={() => setIsAppStarted(true)}>Calcular minha economia agora</Button>
         </div>
-        <Link href='https://diagonal.ag/' target='_blank' className='mt-12'>
+        <Link href='https://diagonal.ag/' target='_blank' className='mt-12 w-full flex justify-center'>
           <img src={'/imgs/feito-por-diagonal.png'} alt='diagonal-copyright' />
         </Link>
       </div>
