@@ -17,15 +17,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name = sanitizeInput($_POST['name'] ?? '');
     $email = filter_var($_POST['email'] ?? '', FILTER_SANITIZE_EMAIL);
     $phone = sanitizeInput($_POST['phone'] ?? '');
+    $academyName = sanitizeInput($_POST['academyName'] ?? '');
+    $uf = sanitizeInput($_POST['uf'] ?? '');
+    $city = sanitizeInput($_POST['city'] ?? '');
+    $gymUnits = sanitizeInput($_POST['gymUnits'] ?? '');
+    $gymBilling = sanitizeInput($_POST['gymBilling'] ?? '');
+    $ecadValue = sanitizeInput($_POST['ecadValue'] ?? '');
+    $lightBilling = sanitizeInput($_POST['lightBilling'] ?? '');
+    $traineeLifeSecure = sanitizeInput($_POST['traineeLifeSecure'] ?? '');
+    $lawyerAccount = sanitizeInput($_POST['lawyerAccount'] ?? '');
+    $economyTotals = sanitizeInput($_POST['economyTotals'] ?? '');
 
     // Validações
     if (empty($name) || empty($email) || empty($phone)) {
-        echo "Por favor, preencha todos os campos obrigatórios.";
+        echo json_encode(["success" => false, "message" => "Por favor, preencha todos os campos obrigatórios."]);
         exit;
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "E-mail inválido.";
+        echo json_encode(["success" => false, "message" => "E-mail inválido."]);
         exit;
     }
 
@@ -53,7 +63,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $mail->Subject = "Novo contato de $name";
         $mail->Body    = "Nome: $name\n".
                          "Email: $email\n".
-                         "Telefone: $phone\n";
+                         "Telefone: $phone\n".
+                         "Nome da Academia: $academyName\n".
+                         "UF: $uf\n".
+                         "Cidade: $city\n".
+                         "Unidades da Academia: $gymUnits\n".
+                         "Faturamento da Academia: $gymBilling\n".
+                         "Valor ECAD: $ecadValue\n".
+                         "Conta de Luz: $lightBilling\n".
+                         "Seguro de Vida do Estagiário: $traineeLifeSecure\n".
+                         "Conta Jurídica: $lawyerAccount\n".
+                         "Total de Economia: $economyTotals\n";
 
         // Enviar e-mail
         if ($mail->send()) {
@@ -62,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             echo json_encode(["success" => false, "message" => "Erro ao enviar mensagem."]);
         }
     } catch (Exception $e) {
-        echo "Erro ao enviar e-mail: {$mail->ErrorInfo}";
+        echo json_encode(["success" => false, "message" => "Erro ao enviar e-mail: {$mail->ErrorInfo}"]);
     }
 } else {
     echo json_encode(["success" => false, "message" => "Método inválido."]);

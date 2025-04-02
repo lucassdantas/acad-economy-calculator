@@ -9,7 +9,7 @@ import { LogoAndBackButton } from '@/app/components/LogoAndBackButton'
 import { Title } from '@/app/components/Title'
 import React, { useEffect, useState } from 'react'
 import { MdArrowCircleLeft } from 'react-icons/md'
-
+import './style.css'
 interface FormProps{
   isLastScreen:boolean;
   setIsLastScreen:(status:boolean) => void;
@@ -30,7 +30,6 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
   const [lightBilling, setLightBilling] = useState<string>('')
   const [traineeLifeSecure, setTraineeLifeSecure] = useState<string>('')
   const [lawyerAccount, setLawyerAccount] = useState<string>('')
-
   const [email, setEmail] = useState<string>('')
   const [phone, setPhone] = useState<string>('')
 
@@ -111,12 +110,13 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
       
     ]
   ]
-  const [currentStep, setCurrentStep] = useState<number>(1)
+  const [currentStep, setCurrentStep] = useState<number>(3)
   const [currentSubstep, setCurrentSubstep] = useState<number>(1)
   const [currentSubStepTotal, setCurrentSubstepTotal] = useState<number>(formSteps[currentStep-1].length)
   const [currentInputsValues, setCurrentInputsValues] = useState<string[]>([''])
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [isInTransictionState, setIsInTransictionState] = useState<boolean>(false)
+  const [isSubmittingForm, setIsSubmittingForm] = useState(false);
   
   const increaseStep = () => {
     let hasEmptyValue = false
@@ -209,15 +209,29 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
     const getnetEconomy = gymBillingNumber*(1.5/100)
     const ecadEconomy = ecadValueNumber*(40/100)
     const lightEconomy = lightBillingNumber*(14/100)
-    const totalsEconomy = getnetEconomy+ecadEconomy+lightEconomy
+    const totalsEconomy = (getnetEconomy+ecadEconomy+lightEconomy).toFixed(2)
     setEconomyTotals(totalsEconomy)
+    return String(totalsEconomy)
   }
   const handleFormSubmit = async () => {
-    calculateTotalsEconomy()
+    setErrorMessage('')
+    if(userName == '' || email == '' || phone == '') { setErrorMessage('Preencha todos os campos'); return}
+    setIsSubmittingForm(true)
+    const totalsEconomy = calculateTotalsEconomy()
     const formData = new FormData();
     formData.append('name', userName);
     formData.append('email', email);
     formData.append('phone', phone);
+    formData.append('academyName', academyName);
+    formData.append('uf', UF );
+    formData.append('city', city );
+    formData.append('gymUnits', gymUnits );
+    formData.append('gymBilling', gymBilling);
+    formData.append('ecadValue', ecadValue );
+    formData.append('lightBilling', lightBilling );
+    formData.append('traineeLifeSecure', traineeLifeSecure );
+    formData.append('lawyerAccount', lawyerAccount );
+    formData.append('economyTotals', totalsEconomy );
     
     try {
       const response = await fetch(`${location.protocol}//${location.hostname}/backend/send-email.php`, {
@@ -226,7 +240,7 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
       });
 
       if (response.ok) {
-        alert('Formulário enviado com sucesso!');
+        console.log('Formulário enviado com sucesso!');
         setIsLastScreen(true)
       } else {
         alert('Erro ao enviar o formulário.');
@@ -234,6 +248,8 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
     } catch (error) {
       console.error('Erro ao enviar:', error);
       alert('Erro ao conectar ao servidor.');
+    } finally{
+      setIsSubmittingForm(false)
     }
     
   }
@@ -257,24 +273,30 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
       {!isLastScreen && isInTransictionState && <TransactionStep isInTransictionState={isInTransictionState} setIsInTransictionState={setIsInTransictionState} currentTextGroupIndex={currentStep-2}/>}
       {!isLastScreen && !isInTransictionState &&
         <div className='flex flex-col items-center justify-center'>
-          {currentStep === formSteps.length && <Title tag={'h4'} className='text-acad-gray-dark font-medium mb-4'>Para finalizar</Title>}
+          {currentStep === formSteps.length && <Title tag={'h4'} className='text-acad-gray-dark font-medium mb-4 -mt-22'>Para finalizar</Title>}
           <ProgressItems currentStep={currentStep} currentStepProgress={(currentSubstep/currentSubStepTotal)*22}/>
           
           {currentStep === formSteps.length && //check is is last step
             <div className='flex flex-col gap-4 w-full mt-12 items-center justify-center'>
               <div className='text-left w-full' >
                 <Title tag={'h5'}>Como se chama?</Title>
-                <input type='txt' placeholder='Nome Sobrenome' name='name' onChange={(e) => setUserName(e.target.value)} value={userName} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg w-full `} />
+                <input type='txt' required placeholder='Nome Sobrenome' name='name' onChange={(e) => setUserName(e.target.value)} value={userName} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg w-full `} />
               </div>
               <div className='text-left w-full' >
                 <Title tag={'h5'}>Seu e-mail</Title>
-                <input type='email' placeholder='email@email.com.br' name='email' onChange={(e) => setEmail(e.target.value)} value={email} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg w-full `}/>
+                <input type='email' required placeholder='email@email.com.br' name='email' onChange={(e) => setEmail(e.target.value)} value={email} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg w-full `}/>
               </div>
               <div className='text-left w-full' >
                 <Title tag={'h5'}>Whatsapp</Title>
-                <input type='txt' placeholder='(00)00000-0000' name='email' onChange={(e) => setPhone(formatPhoneNumber(e.target.value))} value={phone} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg w-full `}/>
+                <input type='txt' required placeholder='(00)00000-0000' name='email' onChange={(e) => setPhone(formatPhoneNumber(e.target.value))} value={phone} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg w-full `}/>
               </div>
-              <Button className='mt-4' onClick={() => handleFormSubmit() }>Ver quanto consigo economizar</Button>
+              {errorMessage&&<span className='text-acad-blue uppercase'>{errorMessage}</span>}
+              {!isSubmittingForm &&<Button className='mt-4' onClick={() => handleFormSubmit() }>Ver quanto consigo economizar</Button>}
+              {isSubmittingForm && 
+                <span className="mt-4 text-acad-blue text-lg font-semibold animate-pulse">
+                  Enviando<span className="dot-one">.</span><span className="dot-two">.</span><span className="dot-three">.</span>
+                </span>
+              }
             </div>
           }
           
