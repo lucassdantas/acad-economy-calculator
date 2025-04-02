@@ -149,6 +149,14 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
     });
   };
   
+  const formatCurrencyValue = (value:string) => {
+    const numericValue = parseInt(value.replace(/\D/g, ''), 10) || 0;
+      const formattedValue = new Intl.NumberFormat('pt-BR', { 
+        style: 'decimal', 
+        minimumFractionDigits: 2 
+      }).format(numericValue / 100);
+      return formattedValue
+  }
   const handleStepValues = (index:number, value:string, currentStep:number, currentSubstep:number) => {
     if(currentStep === 1 && currentSubstep === 1) setAcademyName(value)
     if(currentStep === 1 && currentSubstep === 2) {
@@ -158,20 +166,25 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
     if(currentStep === 1 && currentSubstep === 3) setGymUnits(value)
 
     if(currentStep === 2 && currentSubstep === 1) {
-      const numericValue = parseInt(value.replace(/\D/g, ''), 10) || 0;
-      const formattedValue = new Intl.NumberFormat('pt-BR', { 
-        style: 'decimal', 
-        minimumFractionDigits: 2 
-      }).format(numericValue / 100);
-
-      value = formattedValue
-
-      setGymBilling(value);
+      value = formatCurrencyValue(value)
+      setGymBilling(value)
     }
-    if(currentStep === 2 && currentSubstep === 2) setEcadValue(value)
-    if(currentStep === 2 && currentSubstep === 3) setLightBilling(value)
-    if(currentStep === 2 && currentSubstep === 4) setTraineeLifeSecure(value)
-    if(currentStep === 2 && currentSubstep === 5) setLawyerAccount(value)
+    if(currentStep === 2 && currentSubstep === 2) {
+      value = formatCurrencyValue(value)
+      setEcadValue(value);
+    }
+    if(currentStep === 2 && currentSubstep === 3) {
+      value = formatCurrencyValue(value)
+      setLightBilling(value)
+    }
+    if(currentStep === 2 && currentSubstep === 4) {
+      value = formatCurrencyValue(value)
+      setTraineeLifeSecure(value)
+    }
+    if(currentStep === 2 && currentSubstep === 5) {
+      value = formatCurrencyValue(value)
+      setLawyerAccount(value)
+    }
     
     handleInputChange(index, value)
   }
