@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function Home() {
-  const [isAppStarted, setIsAppStarted] = useState<boolean>(true)
+  const [isAppStarted, setIsAppStarted] = useState<boolean>(false)
   const [isLastScreen, setIsLastScreen] = useState<boolean>(false)
   const [userName, setUserName] = useState<string>('')
   const [economyTotals, setEconomyTotals] = useState<string|number>('10.000')

@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $mail->setFrom($smtpEmail, $name);
         $mail->addAddress($emailReceiver); // Para onde o formulário será enviado
         $mail->addReplyTo($email, $name); // Permite responder ao remetente
-
+        $mail->addCC('contato@diagonal.ag'); // Envia uma cópia oculta para contato@diagonal.ag
         // Conteúdo do e-mail
         $mail->isHTML(false); // Definir para texto puro
         $mail->Subject = "Novo contato de $name";

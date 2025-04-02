@@ -19,14 +19,14 @@ export const SelectLocationStep = ({input, i, currentInputsValues, handleStepVal
   useEffect(() => {
     fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados")
       .then((response) => response.json())
-      .then((data) => setEstados(data.sort((a, b) => a.nome.localeCompare(b.nome))));
+      .then((data) => setEstados(data.sort((a:any, b:any) => a.nome.localeCompare(b.nome))));
   }, []);
 
   useEffect(() => {
     if (UF) {
       fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${UF}/municipios`)
         .then((response) => response.json())
-        .then((data) => setCidades(data.sort((a, b) => a.nome.localeCompare(b.nome))));
+        .then((data) => setCidades(data.sort((a:any, b:any) => a.nome.localeCompare(b.nome))));
     } else {
       setCidades([]);
     }
