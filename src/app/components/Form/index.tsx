@@ -18,7 +18,18 @@ interface FormProps{
   setIsAppStarted:any
 }
 export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAppStarted, setIsAppStarted}:FormProps) => {
-  const [academyName, setAcademyName] = useState<string>('')
+  const [academyName, setAcademyName] = useState<string>('') 
+  const [UF, setUF] = useState<string>('')
+  const [city, setCity] = useState<string>('')
+  const [gymUnits, setGymUnits] = useState<string>('')
+  const [gymBilling, setGymBilling] = useState<string>('')
+  const [ecadValue, setEcadValue] = useState<string>('')
+  const [lightBilling, setLightBilling] = useState<string>('')
+  const [traineeLifeSecure, setTraineeLifeSecure] = useState<string>('')
+  const [lawyerAccount, setLawyerAccount] = useState<string>('')
+
+  const [email, setEmail] = useState<string>('')
+  const [phone, setPhone] = useState<string>('')
 
   const formSteps = [
     [
@@ -97,7 +108,7 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
       
     ]
   ]
-  const [currentStep, setCurrentStep] = useState<number>(1)
+  const [currentStep, setCurrentStep] = useState<number>(3)
   const [currentSubstep, setCurrentSubstep] = useState<number>(1)
   const [currentSubStepTotal, setCurrentSubstepTotal] = useState<number>(formSteps[currentStep-1].length)
   const [currentInputsValues, setCurrentInputsValues] = useState<string[]>([''])
@@ -139,8 +150,21 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
   
   const handleStepValues = (index:number, value:string, currentStep:number, currentSubstep:number) => {
     if(currentStep === 1 && currentSubstep === 1) setAcademyName(value)
+    if(currentStep === 1 && currentSubstep === 2) {
+      if(index === 0) setUF(value) 
+      if(index === 1) setCity(value) 
+    }
+    if(currentStep === 1 && currentSubstep === 3) setGymUnits(value)
+
+    if(currentStep === 2 && currentSubstep === 1) setGymBilling(value)
+    if(currentStep === 2 && currentSubstep === 2) setEcadValue(value)
+    if(currentStep === 2 && currentSubstep === 3) setLightBilling(value)
+    if(currentStep === 2 && currentSubstep === 4) setTraineeLifeSecure(value)
+    if(currentStep === 2 && currentSubstep === 5) setLawyerAccount(value)
+    
     handleInputChange(index, value)
   }
+
   const handleFormSubmit = () => {
     setIsLastScreen(true)
   }
@@ -167,15 +191,19 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
           
           {currentStep === formSteps.length && //check is is last step
             <div className='flex flex-col gap-4 w-full mt-12 items-center justify-center'>
-              {formSteps[currentStep-1].map((item, i) => {
-                const input = item.inputs[0]
-                return(
-                  <div className='text-left w-full' key={i}>
-                    <Title tag={'h5'}>{item.title}</Title>
-                    <input type={input.type} placeholder={input.placeholder} name={input.name} key={input.name} onChange={(e) => setUserName(e.target.value)} value={userName} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg `} style={{width:`${input.width}%`}}/>
-                  </div>
-                )
-              })} 
+              <div className='text-left w-full' >
+                <Title tag={'h5'}>Como se chama?</Title>
+                <input type='txt' placeholder='Nome Sobrenome' name='name' onChange={(e) => setUserName(e.target.value)} value={userName} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg w-full `} />
+              </div>
+              <div className='text-left w-full' >
+                <Title tag={'h5'}>Seu e-mail</Title>
+                <input type='email' placeholder='email@email.com.br' name='email' onChange={(e) => setEmail(e.target.value)} value={email} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg w-full `}/>
+              </div>
+              <div className='text-left w-full' >
+                <Title tag={'h5'}>Whatsapp</Title>
+                <input type='txt' placeholder='(00)00000-0000' name='email' onChange={(e) => setPhone(e.target.value)} value={phone} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg w-full `}/>
+              </div>
+              
               <Button className='mt-4' onClick={() => handleFormSubmit() }>Ver quanto consigo economizar</Button>
 
             </div>
