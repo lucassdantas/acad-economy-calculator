@@ -157,7 +157,17 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
     }
     if(currentStep === 1 && currentSubstep === 3) setGymUnits(value)
 
-    if(currentStep === 2 && currentSubstep === 1) setGymBilling(value)
+    if(currentStep === 2 && currentSubstep === 1) {
+      const numericValue = parseInt(value.replace(/\D/g, ''), 10) || 0;
+      const formattedValue = new Intl.NumberFormat('pt-BR', { 
+        style: 'decimal', 
+        minimumFractionDigits: 2 
+      }).format(numericValue / 100);
+
+      value = formattedValue
+
+      setGymBilling(value);
+    }
     if(currentStep === 2 && currentSubstep === 2) setEcadValue(value)
     if(currentStep === 2 && currentSubstep === 3) setLightBilling(value)
     if(currentStep === 2 && currentSubstep === 4) setTraineeLifeSecure(value)
@@ -203,7 +213,9 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
 
   return (
   <div className='flex flex-col w-full items-center  h-screen'>
-      <LogoAndBackButton currentStep={currentStep} decreaseStep={decreaseStep} formSteps={formSteps} currentSubstep={currentSubstep} setIsAppStarted={setIsAppStarted}/>
+    <LogoAndBackButton currentStep={currentStep} decreaseStep={decreaseStep} formSteps={formSteps} currentSubstep={currentSubstep} setIsAppStarted={setIsAppStarted}/>
+    {currentInputsValues[0]}
+    
     <div className='h-screen w-[90%] max-w-lg'>
       <BlueAndYellowForms/>
       {!isLastScreen && isInTransictionState && <TransactionStep isInTransictionState={isInTransictionState} setIsInTransictionState={setIsInTransictionState} currentTextGroupIndex={currentStep-2}/>}
@@ -241,7 +253,7 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
                       input={input} setCity={setCity} setUF={setUF} key={i}
                     />
                   )
-                  return(<input type={input.type} placeholder={input.placeholder} name={input.name} key={input.name} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg `} style={{width:`${input.width}%`}} value={currentInputsValues[i]} onChange={(e) => handleStepValues(i, e.target.value, currentStep, currentSubstep)}/>)
+                  return(<input onChange={(e) => handleStepValues(i, e.target.value, currentStep, currentSubstep)} value={currentInputsValues[i]} type={input.type} placeholder={input.placeholder} name={input.name} key={input.name} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg `} style={{width:`${input.width}%`}} />)
                 })}
               </div>
               {errorMessage&&<span className='text-acad-blue uppercase'>{errorMessage}</span>}
