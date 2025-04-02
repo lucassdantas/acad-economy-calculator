@@ -2,6 +2,7 @@
 import { BlueAndYellowForms} from '@/app/components/BackgroundForms'
 import { Button } from '@/app/components/Button'
 import { ProgressItems } from '@/app/components/Form/ProgressItems'
+import { SelectLocationStep } from '@/app/components/Form/SelectLocationStep'
 import { TransactionStep } from '@/app/components/Form/TransictionStep'
 import { LastScreen } from '@/app/components/LastScreen'
 import { LogoAndBackButton } from '@/app/components/LogoAndBackButton'
@@ -108,7 +109,7 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
       
     ]
   ]
-  const [currentStep, setCurrentStep] = useState<number>(3)
+  const [currentStep, setCurrentStep] = useState<number>(1)
   const [currentSubstep, setCurrentSubstep] = useState<number>(1)
   const [currentSubStepTotal, setCurrentSubstepTotal] = useState<number>(formSteps[currentStep-1].length)
   const [currentInputsValues, setCurrentInputsValues] = useState<string[]>([''])
@@ -167,28 +168,29 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
 
   const handleFormSubmit = async () => {
     const formData = new FormData();
-  formData.append('name', userName);
-  formData.append('email', email);
-  formData.append('phone', phone);
+    formData.append('name', userName);
+    formData.append('email', email);
+    formData.append('phone', phone);
 
-  try {
-    const response = await fetch(`${location.protocol}//${location.hostname}/backend/send-email.php`, {
-      method: 'POST',
-      body: formData,
-    });
+    try {
+      const response = await fetch(`${location.protocol}//${location.hostname}/backend/send-email.php`, {
+        method: 'POST',
+        body: formData,
+      });
 
-    if (response.ok) {
-      alert('Formulário enviado com sucesso!');
-      setIsLastScreen(true)
-    } else {
-      alert('Erro ao enviar o formulário.');
+      if (response.ok) {
+        alert('Formulário enviado com sucesso!');
+        setIsLastScreen(true)
+      } else {
+        alert('Erro ao enviar o formulário.');
+      }
+    } catch (error) {
+      console.error('Erro ao enviar:', error);
+      alert('Erro ao conectar ao servidor.');
     }
-  } catch (error) {
-    console.error('Erro ao enviar:', error);
-    alert('Erro ao conectar ao servidor.');
-  }
     
   }
+  
   //obriga a preencher o primeiro valor no select
   useEffect(() => {
     setCurrentInputsValues((prevValues) => {
@@ -234,11 +236,10 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
               <div className="flex gap-4 justify-between items-center w-full">
                 {formSteps[currentStep-1][currentSubstep-1].inputs.map((input, i) => {
                   if(input.type === 'select') return (
-                    <select value={currentInputsValues[i] || input.placeholder} name={input.name} key={input.name} style={{width:`${input.width}%`} } className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg min-w-fit `} onChange={(e) => handleStepValues(i, e.target.value, currentStep, currentSubstep)}>
-                      <option disabled value={input.placeholder}>{input.placeholder}</option>
-                      <option value={'a'}>{'a'}</option>
-                      <option value={'b'}>{'b'}</option>
-                    </select>
+                    <SelectLocationStep 
+                      UF={UF} city={city} currentInputsValues={currentInputsValues} currentStep={currentStep} currentSubstep={currentSubstep} handleStepValues={handleStepValues} i={i}
+                      input={input} setCity={setCity} setUF={setUF} key={i}
+                    />
                   )
                   return(<input type={input.type} placeholder={input.placeholder} name={input.name} key={input.name} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg `} style={{width:`${input.width}%`}} value={currentInputsValues[i]} onChange={(e) => handleStepValues(i, e.target.value, currentStep, currentSubstep)}/>)
                 })}
