@@ -8,8 +8,8 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function Home() {
-  const [isAppStarted, setIsAppStarted] = useState<boolean>(true)
-  const [isLastScreen, setIsLastScreen] = useState<boolean>(true)
+  const [isAppStarted, setIsAppStarted] = useState<boolean>(false)
+  const [isLastScreen, setIsLastScreen] = useState<boolean>(false)
   const [userName, setUserName] = useState<string>('')
   const [economyTotals, setEconomyTotals] = useState<string|number>('10.000')
 
@@ -30,7 +30,7 @@ const BeforeInitApp = ({isAppStarted, setIsAppStarted}:{isAppStarted:boolean, se
     <div className='w-full min-h-screen text-center flex flex-col lg:flex-row items-center gap-4  relative overflow-y-hidden'>
       <BlueAndYellowForms className=''/>
       <div className='w-full lg:w-[50%]  lg:h-screen flex flex-col items-center  lg:items-center lg:justify-center pt-4'>
-        <img src='/imgs/acad-logo.png' alt='Acad Logotipo' className='w-[80%] max-w-[300px] lg:max-w-[80%] -mb-6 '/>
+        <img src='/imgs/acad-logo.png' alt='Acad Logotipo' className='w-[80%] max-w-[300px] lg:max-w-[400px] -mb-6 '/>
         <div className='flex flex-col items-center lg:items-tart w-full lg:h-screen relative overflow-hidden'>
           <img src={'/imgs/discount-man-vertical.png'} alt='Homem com ícones de desconto' className='hidden lg:block object-contain '/>
           <img src={'/imgs/discount-man.png'} alt='Homem com ícones de desconto' className='max-w-[560px] block lg:hidden object-contain w-full'/>
@@ -39,9 +39,9 @@ const BeforeInitApp = ({isAppStarted, setIsAppStarted}:{isAppStarted:boolean, se
         </div>
       </div>
 
-      <div className='flex flex-col lg:items-start justify-center lg:justify-start lg:text-start lg:w-[50%] gap-4 mb-24 lg:mb-0 px-4'>
-        <Title tag='h1'>Descubra quanto sua academia pode economizar</Title>
-        <Title tag='h2' className='text-acad-gray-dark mb-4'>sendo um associado ACAD Brasil!</Title>
+      <div className='flex flex-col lg:items-start items-center justify-center lg:justify-start lg:text-start lg:w-[50%] gap-4 mb-24 lg:mb-0 px-4'>
+        <Title tag='h1' className='lg:max-w-[500px]'>Descubra quanto sua academia pode economizar</Title>
+        <Title tag='h2' className='text-acad-gray-dark mb-4 lg:text-4xl '>sendo um associado ACAD Brasil!</Title>
         <div className='w-full flex justify-center lg:justify-start lg:mt-12'>
           <Button onClick={() => setIsAppStarted(true)}>Calcular minha economia agora</Button>
         </div>

@@ -10,6 +10,8 @@ import { Title } from '@/app/components/Title'
 import React, { useEffect, useState } from 'react'
 import { MdArrowCircleLeft } from 'react-icons/md'
 import './style.css'
+import { AnimatedInput } from '@/app/components/Form/AnimatedInput'
+import { AnimatedDiv } from '@/app/components/AnimatedDiv'
 interface FormProps{
   isLastScreen:boolean;
   setIsLastScreen:(status:boolean) => void;
@@ -38,20 +40,20 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
       {
         title:'Como se chama a <br/> sua academia?',
         inputs:[
-          {type:'txt', placeholder:"Minha academia", width:100, name:'gymName' }
+          {type:'txt', placeholder:"Minha academia", width:100, name:'gymName', animation:'fadeIn'}
         ]
       },
       {
         title:"Onde fica a " + academyName ,
         inputs:[
-          {type:'select', placeholder:'UF',     width:25, name:'gymUF'  },
-          {type:'select', placeholder:'Cidade', width:75, name:'gymCity'},
+          {type:'select', placeholder:'UF',     width:25, name:'gymUF'  , animation:'fade'},
+          {type:'select', placeholder:'Cidade', width:75, name:'gymCity', animation:'fade'},
         ]
       },
       {
         title:`Quantas unidades a ${academyName} tem?`,
         inputs:[
-          {type:'number', placeholder:'Número de unidades', width:100, name:'gymQuantity'}
+          {type:'number', placeholder:'Número de unidades', width:100, name:'gymQuantity', animation:'fade'}
         ]
       },
     ],
@@ -59,31 +61,31 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
       {
         title:'Qual é o faturamento da '+ academyName,
         inputs:[
-          {type:'txt', placeholder:"Faturamento", width:100, name:'gymBilling' }
+          {type:'txt', placeholder:"Faturamento", width:100, name:'gymBilling', animation:'fadeUp' }
         ]
       },
       {
         title:'Quanto você paga de ECAD?',
         inputs:[
-          {type:'txt', placeholder:"Valor", width:100, name:'ecadValue' }
+          {type:'txt', placeholder:"Valor", width:100, name:'ecadValue', animation:'fadeDown'}
         ]
       },
       {
         title:'Quanto a ' + academyName + ' gasta de energia em média por mês?',
         inputs:[
-          {type:'txt', placeholder:"valor", width:100, name:'lightExpenditure' }
+          {type:'txt', placeholder:"valor", width:100, name:'lightExpenditure', animation:'fadeUp' }
         ]
       },
       {
         title:'Quanto paga por seguro estagiário?',
         inputs:[
-          {type:'txt', placeholder:"valor", width:100, name:'traineeSecure' }
+          {type:'txt', placeholder:"valor", width:100, name:'traineeSecure', animation:'fadeDown'}
         ]
       },
       {
         title:'Quanto paga de advogado?',
         inputs:[
-          {type:'txt', placeholder:"valor", width:100, name:'lawyerExpenditure' }
+          {type:'txt', placeholder:"valor", width:100, name:'lawyerExpenditure', animation:'fade'}
         ]
       },
       
@@ -92,19 +94,19 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
       {
         title:'Como se chama?',
         inputs:[
-          {type:'txt', placeholder:"Nome Sobrenome", width:100, name:'customerName' }
+          {type:'txt', placeholder:"Nome Sobrenome", width:100, name:'customerName', animation:'fade' }
         ]
       },
       {
         title:'Seu e-mail',
         inputs:[
-          {type:'email', placeholder:"email@email.com.br", width:100, name:'customerEmail' }
+          {type:'email', placeholder:"email@email.com.br", width:100, name:'customerEmail', animation:'fade' }
         ]
       },
       {
         title:'Whatsapp',
         inputs:[
-          {type:'txt', placeholder:"(00)00000-0000", width:100, name:'customerPhone' }
+          {type:'txt', placeholder:"(00)00000-0000", width:100, name:'customerPhone', animation:'fade' }
         ]
       },
       
@@ -266,7 +268,7 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
 
   return (
   <div className='flex flex-col w-full items-center  h-screen'>
-    <LogoAndBackButton currentStep={currentStep} decreaseStep={decreaseStep} formSteps={formSteps} currentSubstep={currentSubstep} setIsAppStarted={setIsAppStarted}/>
+    <LogoAndBackButton currentStep={currentStep} decreaseStep={decreaseStep} formSteps={formSteps} currentSubstep={currentSubstep} setIsAppStarted={setIsAppStarted} isInTransictionState={isInTransictionState}/>
     
     <div className='h-screen w-[90%] max-w-lg'>
       <BlueAndYellowForms/>
@@ -301,7 +303,7 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
           }
           
           {currentStep < formSteps.length &&
-            <div className='flex flex-col text-center items-center mt-12 gap-4'>
+            <AnimatedDiv className='flex flex-col text-center items-center mt-12 gap-4' animation={formSteps[currentStep-1][currentSubstep-1].inputs[0].animation}>
               <Title tag={'h2'}>{formSteps[currentStep-1][currentSubstep-1].title}</Title>
               <div className="flex gap-4 justify-between items-center w-full">
                 {formSteps[currentStep-1][currentSubstep-1].inputs.map((input, i) => {
@@ -311,12 +313,12 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
                       input={input} setCity={setCity} setUF={setUF} key={i}
                     />
                   )
-                  return(<input onChange={(e) => handleStepValues(i, e.target.value, currentStep, currentSubstep)} value={currentInputsValues[i]} type={input.type} placeholder={input.placeholder} name={input.name} key={input.name} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg `} style={{width:`${input.width}%`}} />)
+                  return(<AnimatedInput onChange={(e:any) => handleStepValues(i, e.target.value, currentStep, currentSubstep)} value={currentInputsValues[i]} type={input.type} placeholder={input.placeholder} name={input.name} key={input.name} width={input.width} animation={input.animation} />)
                 })}
               </div>
               {errorMessage&&<span className='text-acad-blue uppercase'>{errorMessage}</span>}
               <Button className='' onClick={() => increaseStep() }>Próximo</Button>
-            </div>
+            </AnimatedDiv>
           }
         </div>
       }
