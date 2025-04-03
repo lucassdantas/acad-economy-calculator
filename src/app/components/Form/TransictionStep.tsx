@@ -47,7 +47,7 @@ export const TransactionStep = ({
       } else {
         setIsInTransictionState(false);
       }
-    }, 3000);
+    }, 1500);
 
     return () => clearTimeout(nextText);
   }, [currentTextIndex, isInTransictionState, currentTextGroupIndex, setIsInTransictionState]);
