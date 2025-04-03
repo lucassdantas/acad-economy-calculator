@@ -29,10 +29,10 @@ const BeforeInitApp = ({isAppStarted, setIsAppStarted}:{isAppStarted:boolean, se
   return(
     <div className='w-full min-h-screen text-center flex flex-col lg:flex-row items-center gap-4  relative overflow-y-hidden'>
       <BlueAndYellowForms className=''/>
-      <div className='w-full lg:w-[50%]  lg:h-screen flex flex-col items-center  lg:items-center lg:justify-center pt-4'>
+      <div className='w-full lg:w-[50%] lg:h-screen flex flex-col items-center lg:items-center lg:justify-center pt-4'>
         <img src='/imgs/acad-logo.png' alt='Acad Logotipo' className='w-[80%] max-w-[300px] lg:max-w-[400px] -mb-6 '/>
-        <div className='flex flex-col items-center lg:items-tart w-full lg:h-screen relative overflow-hidden'>
-          <img src={'/imgs/discount-man-vertical.png'} alt='Homem com ícones de desconto' className='hidden lg:block object-contain '/>
+        <div className='flex flex-col items-center lg:items-start w-full lg:h-screen relative overflow-hidden'>
+          <img src={'/imgs/discount-man-vertical.png'} alt='Homem com ícones de desconto' className='hidden lg:block object-contain w-full'/>
           <img src={'/imgs/discount-man.png'} alt='Homem com ícones de desconto' className='max-w-[560px] block lg:hidden object-contain w-full'/>
           <div className='lg:hidden absolute bottom-0 left-0 w-full h-22 bg-white' style={{ clipPath: 'polygon(-50% 100%, 100% 0, 100% 100%, 0 100%)' }}></div>
           <div className='lg:hidden absolute bottom-0 left-0 w-full h-22 bg-gradient-to-b from-black to-white opacity-20' style={{ clipPath: 'polygon(-50% 100%, 100% 0, 100% 100%, 0 100%)' }}></div>
@@ -46,7 +46,7 @@ const BeforeInitApp = ({isAppStarted, setIsAppStarted}:{isAppStarted:boolean, se
           <Button onClick={() => setIsAppStarted(true)}>Calcular minha economia agora</Button>
         </div>
         <Link href='https://diagonal.ag/' target='_blank' className='mt-12 w-full flex justify-center'>
-          <img src={'/imgs/feito-por-diagonal.png'} alt='diagonal-copyright' />
+          <img src={'/imgs/feito-por-diagonal.png'} alt='diagonal-copyright' className='lg:absolute bottom-10' />
         </Link>
       </div>
     </div>
