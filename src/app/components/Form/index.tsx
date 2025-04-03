@@ -284,7 +284,7 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
           <ProgressItems currentStep={currentStep} currentStepProgress={(currentSubstep/currentSubStepTotal)*22}/>
           
           {currentStep === formSteps.length && //check is is last step
-            <div className='flex flex-col gap-4 w-full mt-12 items-center justify-center'>
+            <AnimatedDiv className='flex flex-col gap-4 w-full mt-12 items-center justify-center' animation={formSteps[currentStep-1][currentSubstep-1].inputs[0].animation}>
               <div className='text-left w-full' >
                 <Title tag={'h5'}>Como se chama?</Title>
                 <input type='txt' required placeholder='Nome Sobrenome' name='name' onChange={(e) => setUserName(e.target.value)} value={userName} className={`bg-acad-gray-light border border-acad-blue text-acad-gray-dark p-2 rounded-lg w-full `} />
@@ -304,7 +304,7 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
                   Enviando<span className="dot-one">.</span><span className="dot-two">.</span><span className="dot-three">.</span>
                 </span>
               }
-            </div>
+            </AnimatedDiv>
           }
           
           {currentStep < formSteps.length &&
