@@ -207,12 +207,17 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
     const gymBillingNumber = parseCurrency(gymBilling);
     const ecadValueNumber = parseCurrency(ecadValue);
     const lightBillingNumber = parseCurrency(lightBilling);
+    const lawyerBillingNumber = parseCurrency(lawyerAccount);
+    const traineeBillingNumber = parseCurrency(traineeLifeSecure);
 
     const getnetEconomy = gymBillingNumber*(1.5/100)
-    const ecadEconomy = ecadValueNumber*(40/100)
+    const ecadEconomy =  ecadValueNumber*(40/100)
     const lightEconomy = lightBillingNumber*(14/100)
-    const totalsEconomy = (getnetEconomy+ecadEconomy+lightEconomy).toFixed(2)
-    setEconomyTotals(totalsEconomy)
+    const traineeEconomy = (traineeBillingNumber/35)*32.50
+    //free one consult of lawyer, thats the reasonw why the there is no calc for it here
+    const totalsEconomy = (getnetEconomy+ecadEconomy+lightEconomy+lawyerBillingNumber+traineeEconomy).toFixed(2)
+
+    setEconomyTotals(formatCurrencyValue(totalsEconomy))
     return String(totalsEconomy)
   }
   const handleFormSubmit = async () => {
