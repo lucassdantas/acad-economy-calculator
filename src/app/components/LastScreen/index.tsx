@@ -29,8 +29,10 @@ export const LastScreen = ({userName, economyValue}:LastScreenProps) => {
         </div>
         <div>
           <div className='relative flex flex-col gap-4'>
-            <Button onClick={() => ''} className=''>Quero economizar agora!</Button>
-            <Link href='#' className='uppercase font-bold text-acad-blue underline mb-24 md:mb-0'>Não, eu não quero economizar</Link>
+            <Link href='https://acadbrasil.com.br/carrinho/' target='_blank'>
+              <Button onClick={() => ''} className=''>Quero economizar agora!</Button>
+            </Link>
+            <span onClick={() => location.reload()} className='cursor-pointer uppercase font-bold text-acad-blue underline mb-24 md:mb-0'>Não, eu não quero economizar</span>
           </div>
         </div>
       </div>

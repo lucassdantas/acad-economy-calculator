@@ -215,7 +215,7 @@ export const Form = ({isLastScreen, setIsLastScreen, userName, setUserName, isAp
     const lightEconomy = lightBillingNumber*(14/100)
     const traineeEconomy = (traineeBillingNumber/35)*32.50
     //free one consult of lawyer, thats the reasonw why the there is no calc for it here
-    const totalsEconomy = (getnetEconomy+ecadEconomy+lightEconomy+lawyerBillingNumber+traineeEconomy).toFixed(2)
+    const totalsEconomy = ((getnetEconomy+ecadEconomy+lightEconomy+lawyerBillingNumber+traineeEconomy)*12).toFixed(2)
 
     setEconomyTotals(formatCurrencyValue(totalsEconomy))
     return String(totalsEconomy)
